@@ -53,15 +53,14 @@ Just like the Homework 18, create two new nodes and a genesis block based on pro
 
 ### (7) Test ETH Transaction
 
-Before testing a test ETH transactions between two child wallets, you have to send some amount of ETH to a child wallet because in the beginning child wallets are empty. To do so, access the local PoA chain on My Crypto just like in the Homework 18 and send 1000 ETH from the node1 sealing account to a child wallet. <br>
+Before testing test ETH transactions between two child wallets, you have to send some amount of ETH to a child wallet because in the beginning child wallets are empty. To do so, access the local PoA chain on My Crypto just like in the Homework 18 and send 1000 ETH from the node1 sealing account to a child wallet. <br>
 <img width="500" alt="preparation.jpg" src="https://github.com/Avrora4578/CFB_HW_19_Multi-Blockchain_Wallet_in_Python/blob/main/Screenshots/preparation.jpg">
 <br>
 <br>
 Finally, call the functions in wallet.py and send 100 ETH from the first child wallet to the second one. The code to call the functions and the result of the transaction are as follows. You can check the balances of the two wallets have been changed according to the transaction.<br>
 <img width="900" alt="eth_transaction.jpg" src="https://github.com/Avrora4578/CFB_HW_19_Multi-Blockchain_Wallet_in_Python/blob/main/Screenshots/eth_transaction.jpg">
 <br>
-<img width="300" alt="result1.PNG" src="https://github.com/Avrora4578/CFB_HW_19_Multi-Blockchain_Wallet_in_Python/blob/main/Screenshots/result1.PNG">
-<img width="300" alt="result2.PNG" src="https://github.com/Avrora4578/CFB_HW_19_Multi-Blockchain_Wallet_in_Python/blob/main/Screenshots/result2.PNG">
+<img width="300" alt="result1.PNG" src="https://github.com/Avrora4578/CFB_HW_19_Multi-Blockchain_Wallet_in_Python/blob/main/Screenshots/result1.PNG"><img width="300" alt="result2.PNG" src="https://github.com/Avrora4578/CFB_HW_19_Multi-Blockchain_Wallet_in_Python/blob/main/Screenshots/result2.PNG">
 
 
 
