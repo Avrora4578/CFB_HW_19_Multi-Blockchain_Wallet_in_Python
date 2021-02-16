@@ -1,0 +1,286 @@
+mnemonic: 
+young rifle express flag palm roast report potato tone oven deal play
+
+account address: 0xf5d807B2a11207Fe723D5F45c8939687F3DcAa7C
+
+public key: 0xf89cc8e84b5e75e4a63415237a623bafee1ce4e6656ac6608f7af432dfd37943
+
+
+★Create nodes
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./geth --datadir node1 account new
+INFO [02-16|05:22:35.203] Maximum peer count                       ETH=50 LES=0 total=50
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Password:
+Repeat password:
+
+Your new key was generated
+
+Public address of the key:   0x100d234C4383727E0F609334A281629CbB7dA313
+Path of the secret key file: node1\keystore\UTC--2021-02-16T10-22-40.939086900Z--100d234c4383727e0f609334a281629cbb7da313
+
+- You can share your public address with anyone. Others need it to interact with you.
+- You must NEVER share the secret key with anyone! The key controls access to your funds!
+- You must BACKUP your key file! Without the key, it's impossible to access account funds!
+- You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
+
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./geth --datadir node2 account new
+INFO [02-16|05:22:47.400] Maximum peer count                       ETH=50 LES=0 total=50
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Password:
+Repeat password:
+
+Your new key was generated
+
+Public address of the key:   0xcf19f559e459DA4d838f2CE687381606A16E18d8
+Path of the secret key file: node2\keystore\UTC--2021-02-16T10-22-55.770618600Z--cf19f559e459da4d838f2ce687381606a16e18d8
+
+- You can share your public address with anyone. Others need it to interact with you.
+- You must NEVER share the secret key with anyone! The key controls access to your funds!
+- You must BACKUP your key file! Without the key, it's impossible to access account funds!
+- You must REMEMBER your password! Without the password, it's impossible to decrypt the key!
+
+
+
+★Create the genesis block of PoA
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./puppeth
++-----------------------------------------------------------+
+| Welcome to puppeth, your Ethereum private network manager |
+|                                                           |
+| This tool lets you create a new Ethereum network down to  |
+| the genesis block, bootnodes, miners and ethstats servers |
+| without the hassle that it would normally entail.         |
+|                                                           |
+| Puppeth uses SSH to dial in to remote servers, and builds |
+| its network components out of Docker containers using the |
+| docker-compose toolset.                                   |
++-----------------------------------------------------------+
+
+Please specify a network name to administer (no spaces, hyphens or capital letters please)
+> hw19
+
+Sweet, you can set this via --network=hw19 next time!
+
+[32mINFO [0m[02-16|05:23:41.595] Administering Ethereum network           [32mname[0m=hw19
+[32mINFO [0m[02-16|05:23:41.597] No remote machines to gather stats from
+
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Manage existing genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+
+ 1. Modify existing configurations
+ 2. Export genesis configurations
+ 3. Remove genesis configuration
+> 3
+[32mINFO [0m[02-16|05:23:48.265] Genesis block destroyed
+
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Configure new genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+
+What would you like to do? (default = create)
+ 1. Create new genesis from scratch
+ 2. Import already existing genesis
+> 1
+
+Which consensus engine to use? (default = clique)
+ 1. Ethash - proof-of-work
+ 2. Clique - proof-of-authority
+> 2
+
+How many seconds should blocks take? (default = 15)
+> 15
+
+Which accounts are allowed to seal? (mandatory at least one)
+> 0x100d234C4383727E0F609334A281629CbB7dA313
+> 0xcf19f559e459DA4d838f2CE687381606A16E18d8
+> 0x
+
+Which accounts should be pre-funded? (advisable at least one)
+> 0x100d234C4383727E0F609334A281629CbB7dA313
+> 0xcf19f559e459DA4d838f2CE687381606A16E18d8
+> 0x
+
+Should the precompile-addresses (0x1 .. 0xff) be pre-funded with 1 wei? (advisable yes)
+> no
+
+Specify your chain/network ID if you want an explicit one (default = random)
+> 987
+[32mINFO [0m[02-16|05:24:42.465] Configured new genesis block
+
+What would you like to do? (default = stats)
+ 1. Show network stats
+ 2. Manage existing genesis
+ 3. Track new remote server
+ 4. Deploy network components
+> 2
+
+ 1. Modify existing configurations
+ 2. Export genesis configurations
+ 3. Remove genesis configuration
+> 2
+
+Which folder to save the genesis specs into? (default = current)
+  Will create hw19.json, hw19-aleth.json, hw19-harmony.json, hw19-parity.json
+> hw19
+[32mINFO [0m[02-16|05:24:49.667] Saved native genesis chain spec          [32mpath[0m=hw19\\hw19.json
+[31mERROR[0m[02-16|05:24:49.669] Failed to create Aleth chain spec        [31merr[0m="unsupported consensus engine"
+[31mERROR[0m[02-16|05:24:49.671] Failed to create Parity chain spec       [31merr[0m="unsupported consensus engine"
+[32mINFO [0m[02-16|05:24:49.672] Saved genesis chain spec                 [32mclient[0m=harmony [32mpath[0m=hw19\\hw19-harmony.json
+
+
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ rm -Rf node1/geth node2/geth
+
+
+★initialize nodes
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~
+$ cd Blockchain-Tools/
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./geth --datadir node1 init hw19/hw19.json
+INFO [02-16|05:26:00.616] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [02-16|05:26:00.730] Allocated cache and file handles         database=C:\\Users\\kn_na\\Blockchain-Tools\\node1\\geth\\chaindata cache=16.00MiB handles=16
+INFO [02-16|05:26:00.750] Writing custom genesis block
+INFO [02-16|05:26:00.752] Persisted trie from memory database      nodes=3 size=457.00B time=0s gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [02-16|05:26:00.757] Successfully wrote genesis state         database=chaindata hash=835950…432b51
+INFO [02-16|05:26:00.761] Allocated cache and file handles         database=C:\\Users\\kn_na\\Blockchain-Tools\\node1\\geth\\lightchaindata cache=16.00MiB handles=16
+INFO [02-16|05:26:00.778] Writing custom genesis block
+INFO [02-16|05:26:00.782] Persisted trie from memory database      nodes=3 size=457.00B time=0s gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [02-16|05:26:00.790] Successfully wrote genesis state         database=lightchaindata hash=835950…432b51
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./geth --datadir node2 init hw19/hw19.json
+INFO [02-16|05:26:06.344] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [02-16|05:26:06.457] Allocated cache and file handles         database=C:\\Users\\kn_na\\Blockchain-Tools\\node2\\geth\\chaindata cache=16.00MiB handles=16
+INFO [02-16|05:26:06.477] Writing custom genesis block
+INFO [02-16|05:26:06.480] Persisted trie from memory database      nodes=3 size=457.00B time=997.2µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [02-16|05:26:06.486] Successfully wrote genesis state         database=chaindata hash=835950…432b51
+INFO [02-16|05:26:06.490] Allocated cache and file handles         database=C:\\Users\\kn_na\\Blockchain-Tools\\node2\\geth\\lightchaindata cache=16.00MiB handles=16
+INFO [02-16|05:26:06.508] Writing custom genesis block
+INFO [02-16|05:26:06.511] Persisted trie from memory database      nodes=3 size=457.00B time=986.2µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [02-16|05:26:06.520] Successfully wrote genesis state         database=lightchaindata hash=835950…432b51
+
+
+★mining
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~
+$ cd Blockchain-Tools/
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./geth --datadir node1 --unlock "0x100d234C4383727E0F609334A281629CbB7dA313" --mine --rpc --allow-insecure-unlock
+INFO [02-16|05:38:49.243] Bumping default cache on mainnet         provided=1024 updated=4096
+INFO [02-16|05:38:49.251] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [02-16|05:38:49.363] Starting peer-to-peer node               instance=Geth/v1.9.7-stable-a718daa6/windows-amd64/go1.13.4
+INFO [02-16|05:38:49.367] Allocated trie memory caches             clean=1024.00MiB dirty=1024.00MiB
+INFO [02-16|05:38:49.370] Allocated cache and file handles         database=C:\\Users\\kn_na\\Blockchain-Tools\\node1\\geth\\chaindata cache=2.00GiB handles=8192
+INFO [02-16|05:38:49.418] Opened ancient database                  database=C:\\Users\\kn_na\\Blockchain-Tools\\node1\\geth\\chaindata\\ancient
+INFO [02-16|05:38:49.423] Initialised chain configuration          config="{ChainID: 987 Homestead: 0 DAO: <nil> DAOSupport: false EIP150: 0 EIP155: 0 EIP158: 0 Byzantium: 0 Constantinople: 0 Petersburg: 0 Istanbul: 0 Engine: clique}"
+INFO [02-16|05:38:49.430] Initialising Ethereum protocol           versions="[64 63]" network=1 dbversion=7
+INFO [02-16|05:38:49.665] Loaded most recent local header          number=1 hash=980188…9692ce td=2 age=8m7s
+INFO [02-16|05:38:49.670] Loaded most recent local full block      number=1 hash=980188…9692ce td=2 age=8m7s
+INFO [02-16|05:38:49.673] Loaded most recent local fast block      number=1 hash=980188…9692ce td=2 age=8m7s
+INFO [02-16|05:38:49.678] Setting new local account                address=0x100d234C4383727E0F609334A281629CbB7dA313
+INFO [02-16|05:38:49.683] Loaded local transaction journal         transactions=1 dropped=0
+INFO [02-16|05:38:49.689] Regenerated local transaction journal    transactions=1 accounts=1
+WARN [02-16|05:38:49.692] Switch sync mode from fast sync to full sync
+INFO [02-16|05:38:49.725] New local node record                    seq=3 id=bef8a1d6c59fe6db ip=127.0.0.1 udp=30303 tcp=30303
+INFO [02-16|05:38:49.731] Started P2P networking                   self=enode://70de27416787da93036c5f0b1b227edbd60d00f1cb4f9e7424907800810cade7c8e53f217767b97328c1e610c153b5c1392c006a8bc59ac42def218d2d7ceca7@127.0.0.1:30303
+INFO [02-16|05:38:49.733] IPC endpoint opened                      url=\\\\.\\pipe\\geth.ipc
+INFO [02-16|05:38:49.742] HTTP endpoint opened                     url=http://127.0.0.1:8545 cors= vhosts=localhost
+Unlocking account 0x100d234C4383727E0F609334A281629CbB7dA313 | Attempt 1/3
+Password: INFO [02-16|05:38:57.292] New local node record                    seq=4 id=bef8a1d6c59fe6db ip=69.206.160.51 udp=30303 tcp=30303
+INFO [02-16|05:39:29.732] Block synchronisation started
+INFO [02-16|05:39:29.738] Chain reorg detected                     number=0 hash=835950…432b51 drop=1 dropfrom=980188…9692ce add=1 addfrom=3f6430…577ed3
+INFO [02-16|05:39:29.746] Imported new chain segment               blocks=1 txs=0 mgas=0.000 elapsed=8.975ms mgasps=0.000 number=1 hash=3f6430…577ed3 age=8m42s dirty=0.00B
+
+INFO [02-16|05:40:06.017] Unlocked account                         address=0x100d234C4383727E0F609334A281629CbB7dA313
+INFO [02-16|05:40:06.021] Transaction pool price threshold updated price=1000000000
+INFO [02-16|05:40:06.024] Transaction pool price threshold updated price=1000000000
+INFO [02-16|05:40:06.028] Etherbase automatically configured       address=0x100d234C4383727E0F609334A281629CbB7dA313
+INFO [02-16|05:40:06.033] Commit new mining work                   number=2 sealhash=abdace…3c960f uncles=1 txs=0 gas=0 fees=0 elapsed=0s
+INFO [02-16|05:40:06.033] Successfully sealed new block            number=2 sealhash=abdace…3c960f hash=516011…5503e8 elapsed=0s
+INFO [02-16|05:40:06.045] 🔨 mined potential block                  number=2 hash=516011…5503e8
+INFO [02-16|05:40:06.040] Commit new mining work                   number=2 sealhash=11e691…df1273 uncles=1 txs=1 gas=21000 fees=0.00042 elapsed=6.955ms
+INFO [02-16|05:40:06.050] Successfully sealed new block            number=2 sealhash=11e691…df1273 hash=dbbe32…e11c08 elapsed=9.971ms
+INFO [02-16|05:40:06.056] Commit new mining work                   number=3 sealhash=a39381…f16499 uncles=1 txs=0 gas=0     fees=0       elapsed=0s
+INFO [02-16|05:40:06.056] Signed recently, must wait for others
+INFO [02-16|05:40:06.062] 🔨 mined potential block                  number=2 hash=dbbe32…e11c08
+INFO [02-16|05:40:06.076] Commit new mining work                   number=3 sealhash=b615bd…69980c uncles=1 txs=1 gas=21000 fees=0.00042 elapsed=19.946ms
+INFO [02-16|05:40:06.073] Signed recently, must wait for others
+INFO [02-16|05:40:06.120] Commit new mining work                   number=3 sealhash=b615bd…69980c uncles=2 txs=1 gas=21000 fees=0.00042 elapsed=2.628ms
+INFO [02-16|05:40:21.008] Imported new chain segment               blocks=1 txs=0 mgas=0.000 elapsed=998.4µs  mgasps=0.000 number=3 hash=bd6f0b…bfc4e2 dirty=745.00B
+INFO [02-16|05:40:21.016] Commit new mining work                   number=4 sealhash=8d39d0…fdf3bb uncles=2 txs=0 gas=0     fees=0       elapsed=0s
+INFO [02-16|05:40:21.023] Commit new mining work                   number=4 sealhash=6ad315…846786 uncles=2 txs=1 gas=21000 fees=0.00042 elapsed=6.983ms
+INFO [02-16|05:40:36.000] Successfully sealed new block            number=4 sealhash=6ad315…846786 hash=df6ff9…2a6cc0 elapsed=14.977s
+INFO [02-16|05:40:36.006] 🔨 mined potential block                  number=4 hash=df6ff9…2a6cc0
+INFO [02-16|05:40:36.010] Commit new mining work                   number=5 sealhash=be270a…e16d23 uncles=2 txs=0 gas=0     fees=0       elapsed=3.989ms
+INFO [02-16|05:40:36.006] Signed recently, must wait for others
+INFO [02-16|05:40:51.007] Imported new chain segment               blocks=1 txs=0 mgas=0.000 elapsed=963.3µs  mgasps=0.000 number=5 hash=6dce37…4bb26e dirty=745.00B
+INFO [02-16|05:40:51.013] Commit new mining work                   number=6 sealhash=725e35…f3f56e uncles=2 txs=0 gas=0     fees=0       elapsed=0s
+INFO [02-16|05:41:06.000] Successfully sealed new block            number=6 sealhash=725e35…f3f56e hash=de6b45…81c3c6 elapsed=14.987s
+INFO [02-16|05:41:06.021] 🔨 mined potential block                  number=6 hash=de6b45…81c3c6
+INFO [02-16|05:41:06.025] Commit new mining work                   number=7 sealhash=2c33ae…ec771c uncles=2 txs=0 gas=0     fees=0       elapsed=2.956ms
+INFO [02-16|05:41:06.022] Signed recently, must wait for others
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~
+$ cd Blockchain-Tools/
+
+kn_na@LAPTOP-JPE6QHLL MINGW64 ~/Blockchain-Tools
+$ ./geth --datadir node2 --unlock "0xcf19f559e459DA4d838f2CE687381606A16E18d8" --mine --port 30304 --bootnodes "enode://70de27416787da93036c5f0b1b227edbd60d00f1cb4f9e7424907800810cade7c8e53f217767b97328c1e610c153b5c1392c006a8bc59ac42def218d2d7ceca7@127.0.0.1:30303" --ipcdisable --allow-insecure-unlock
+INFO [02-16|05:39:28.494] Bumping default cache on mainnet         provided=1024 updated=4096
+INFO [02-16|05:39:28.499] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [02-16|05:39:28.608] Starting peer-to-peer node               instance=Geth/v1.9.7-stable-a718daa6/windows-amd64/go1.13.4
+INFO [02-16|05:39:28.613] Allocated trie memory caches             clean=1024.00MiB dirty=1024.00MiB
+INFO [02-16|05:39:28.616] Allocated cache and file handles         database=C:\\Users\\kn_na\\Blockchain-Tools\\node2\\geth\\chaindata cache=2.00GiB handles=8192
+INFO [02-16|05:39:28.659] Opened ancient database                  database=C:\\Users\\kn_na\\Blockchain-Tools\\node2\\geth\\chaindata\\ancient
+INFO [02-16|05:39:28.666] Initialised chain configuration          config="{ChainID: 987 Homestead: 0 DAO: <nil> DAOSupport: false EIP150: 0 EIP155: 0 EIP158: 0 Byzantium: 0 Constantinople: 0 Petersburg: 0 Istanbul: 0 Engine: clique}"
+INFO [02-16|05:39:28.674] Initialising Ethereum protocol           versions="[64 63]" network=1 dbversion=7
+INFO [02-16|05:39:28.911] Loaded most recent local header          number=1 hash=3f6430…577ed3 td=3 age=8m41s
+INFO [02-16|05:39:28.915] Loaded most recent local full block      number=1 hash=3f6430…577ed3 td=3 age=8m41s
+INFO [02-16|05:39:28.918] Loaded most recent local fast block      number=1 hash=3f6430…577ed3 td=3 age=8m41s
+INFO [02-16|05:39:28.924] Loaded local transaction journal         transactions=0 dropped=0
+INFO [02-16|05:39:28.928] Regenerated local transaction journal    transactions=0 accounts=0
+WARN [02-16|05:39:28.931] Switch sync mode from fast sync to full sync
+INFO [02-16|05:39:28.959] New local node record                    seq=3 id=71493e6de55cb390 ip=127.0.0.1 udp=30304 tcp=30304
+INFO [02-16|05:39:28.9Unlocking account 0xcf19f559e459DA4d838f2CE687381606A16E18d8 | Attempt 1/3
+63] SPassword: tarted P2P networking                   self=enode://d36a86f266043c4a18077bfd8c610666f88d53983a32b7dba0bfd303b6de59b0a6bc21ffcda27e0708ee0070085832bbddccf1a6b59edc5f9b0ba833cab1c27f@127.0.0.1:30304
+INFO [02-16|05:39:34.380] New local node record                    seq=4 id=71493e6de55cb390 ip=69.206.160.51 udp=30304 tcp=30304
+
+INFO [02-16|05:39:59.223] Unlocked account                         address=0xcf19f559e459DA4d838f2CE687381606A16E18d8
+INFO [02-16|05:39:59.227] Transaction pool price threshold updated price=1000000000
+INFO [02-16|05:39:59.229] Transaction pool price threshold updated price=1000000000
+INFO [02-16|05:39:59.232] Etherbase automatically configured       address=0xcf19f559e459DA4d838f2CE687381606A16E18d8
+INFO [02-16|05:39:59.236] Commit new mining work                   number=2 sealhash=9327c1…db4b69 uncles=0 txs=0 gas=0 fees=0 elapsed=0s
+INFO [02-16|05:39:59.236] Signed recently, must wait for others
+INFO [02-16|05:40:06.046] Imported new chain segment               blocks=1 txs=0 mgas=0.000 elapsed=969.9µs mgasps=0.000 number=2 hash=516011…5503e8 dirty=0.00B
+INFO [02-16|05:40:06.052] Commit new mining work                   number=3 sealhash=ed0e6a…f5f176 uncles=0 txs=0 gas=0 fees=0 elapsed=0s
+INFO [02-16|05:40:06.064] Imported new chain segment               blocks=1 txs=1 mgas=0.021 elapsed=997.6µs mgasps=21.051 number=2 hash=dbbe32…e11c08 dirty=745.00B
+INFO [02-16|05:40:06.072] Commit new mining work                   number=3 sealhash=ed0e6a…f5f176 uncles=1 txs=0 gas=0 fees=0 elapsed=964.3µs
+INFO [02-16|05:40:21.000] Successfully sealed new block            number=3 sealhash=ed0e6a…f5f176 hash=bd6f0b…bfc4e2 elapsed=14.947s
+INFO [02-16|05:40:21.006] 🔨 mined potential block                  number=3 hash=bd6f0b…bfc4e2
+INFO [02-16|05:40:21.007] Signed recently, must wait for others
+INFO [02-16|05:40:21.012] Commit new mining work                   number=4 sealhash=bf8474…2d4783 uncles=1 txs=0 gas=0 fees=0 elapsed=5.974ms
+INFO [02-16|05:40:36.007] Imported new chain segment               blocks=1 txs=1 mgas=0.021 elapsed=0s      mgasps=+Inf   number=4 hash=df6ff9…2a6cc0 dirty=745.00B
+INFO [02-16|05:40:36.013] Commit new mining work                   number=5 sealhash=a04b0d…4a8d30 uncles=1 txs=0 gas=0 fees=0 elapsed=0s
+INFO [02-16|05:40:51.001] Successfully sealed new block            number=5 sealhash=a04b0d…4a8d30 hash=6dce37…4bb26e elapsed=14.988s
+INFO [02-16|05:40:51.006] 🔨 mined potential block                  number=5 hash=6dce37…4bb26e
+INFO [02-16|05:40:51.006] Signed recently, must wait for others
+INFO [02-16|05:40:51.011] Commit new mining work                   number=6 sealhash=6f84c3…cf4eb0 uncles=1 txs=0 gas=0 fees=0 elapsed=4.953ms
+INFO [02-16|05:41:06.022] Imported new chain segment               blocks=1 txs=0 mgas=0.000 elapsed=0s      mgasps=NaN    number=6 hash=de6b45…81c3c6 dirty=745.00B
+INFO [02-16|05:41:06.028] Commit new mining work                   number=7 sealhash=d87275…e16bac uncles=1 txs=0 gas=0 fees=0 elapsed=0s
+INFO [02-16|05:41:21.000] Successfully sealed new block            number=7 sealhash=d87275…e16bac hash=44960a…961803 elapsed=14.971s
+INFO [02-16|05:41:21.006] 🔨 mined potential block                  number=7 hash=44960a…961803
+INFO [02-16|05:41:21.006] Signed recently, must wait for others
+INFO [02-16|05:41:21.009] Commit new mining work                   number=8 sealhash=fad965…6f4d0d uncles=1 txs=0 gas=0 fees=0 elapsed=3.003ms
+
